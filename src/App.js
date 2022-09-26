@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import './App.css';
 import MovieCard from './components/MovieCard.js';
 import MovieDetails from './components/MovieDetails.js';
+import MovieList from './components/MovieList.js'
+import SearchBar from './components/SearchBar.js'
 
 function App() {
 
@@ -17,41 +19,48 @@ function App() {
 	// }, [])
 
 	
-	let [movie, setMovie] = useState([])
+	const [searchTerm, setSearchTerm] = useState('batman');
+	const [isLoading, setIsLoading] = useState(true);
+	const [movies, setMovies] = useState([]);
+	const [error, setError] = useState(null);
 
 	const loadMovie = async () => {
-		const response = await fetch(`http://www.omdbapi.com/?i=tt0081505&apikey=ec7d4f92`)
+		const response = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&apikey=ec7d4f92`)
 		const data = await response.json();
-		setMovie(data);
+		setMovies(data.Search);
+		setError(null);
+		setIsLoading(false);
 	}
 	useEffect(() => {
+		setIsLoading(true);
 		loadMovie();
 	}, [])
 
 
-	console.log(movie);
-
-	const moviePoster = movie.Poster;
-	const movieTitle = movie.Title;
-	const movieType = movie.Type;
-	const movieRated = movie.Rated;
-	const movieRutime = movie.Runtime;
-	const movieGenre = movie.Genre;
-	const moviePlot = movie.Plot;
-	const movieActors = movie.Actors;
-	const movieRating = movie.imdbRating;
-	const movieYear = movie.Year;
+	const moviePoster = movies.Poster;
+	const movieTitle = movies.Title;
+	const movieType = movies.Type;
+	// const movieRated = movie.Rated;
+	// const movieRutime = movie.Runtime;
+	// const movieGenre = movie.Genre;
+	// const moviePlot = movie.Plot;
+	// const movieActors = movie.Actors;
+	// const movieRating = movie.imdbRating;
+	// const movieYear = movie.Year;
 
 	return (
 		<div className="App">
 
-			<MovieCard
-				posterUrl={moviePoster}
-				title={movieTitle}
-				type={movieType}
+			<SearchBar />
+
+			<MovieList
+				// posterUrl={moviePoster}
+				// title={movieTitle}
+				// type={movieType}
+				movies={movies}
 			/>
-			<center>~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~</center>
-			<MovieDetails
+
+			{/* <MovieDetails
 				posterUrl={moviePoster}
 				title={movieTitle}
 				rated={movieRated}
@@ -61,7 +70,7 @@ function App() {
 				actors={movieActors}
 				rating={movieRating}
 				year={movieYear}
-			/>
+			/> */}
 
 		</div>
 	);

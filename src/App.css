@@ -39,6 +39,8 @@
 
 .flex {
 	display:flex;
+	margin:10px;
+	flex-wrap: wrap;
 }
 
 .movieDetails {
@@ -81,7 +83,7 @@ h3 {
 
 .movieCard {
 	position: relative;
-	margin: 32px auto;
+	margin: 32px;
 	width: 150px;
 }
 
@@ -100,6 +102,9 @@ h3 {
 	margin: 0 12px 10px;
 	font-weight: lighter;
 	line-height: 1.5em;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .cardMovieType {
